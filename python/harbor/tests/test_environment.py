@@ -338,6 +338,26 @@ def test_stop_deletes_and_tolerates_missing(make_env, fake):
     assert len(fake.named("delete_sandbox")) == 1
 
 
+def test_failed_start_deletes_the_sandbox(make_env, fake):
+    env = make_env(docker_image="ubuntu:24.04", dockerfile=None)
+    fake.errors["run_command"] = [err("bad_request", 400, "boom")]
+    with pytest.raises(Exception, match="boom"):
+        asyncio.run(env.start(force_build=False))
+    assert fake.named("delete_sandbox") == [(("sbx_1",), {})]
+    assert env.sandbox_id is None
+
+
+def test_delete_retries_rate_limit(make_env, fake, monkeypatch):
+    async def no_sleep(_):
+        return None
+
+    env = _started(make_env, fake)
+    monkeypatch.setattr(env_module.asyncio, "sleep", no_sleep)
+    fake.errors["delete_sandbox"] = [err("rate_limited", 429, "Try again in 2 seconds")]
+    asyncio.run(env.stop(delete=True))
+    assert len(fake.named("delete_sandbox")) == 2
+
+
 def test_template_option_skips_build(make_env, fake):
     env = make_env(dockerfile=None, docker_image=None, template="my-template:3")
     _start(env, fake)

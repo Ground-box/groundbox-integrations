@@ -576,6 +576,9 @@ class GroundboxSandbox(BaseEnvironment):
             if self._renew_task is not None:
                 self._renew_task.cancel()
                 self._renew_task = None
+            # Do not rely on the caller's stop(): a sandbox from a failed start
+            # would otherwise run (and bill) until its timeout.
+            await asyncio.shield(self._delete_quietly())
             raise
 
     async def _create_sandbox(self, create: dict[str, Any]) -> None:
