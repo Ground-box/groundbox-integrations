@@ -1,0 +1,58 @@
+{
+  "name": "@groundbox/sandcastle",
+  "version": "0.1.0",
+  "description": "Groundbox sandbox provider for Sandcastle: run coding agents in Groundbox Firecracker microVMs.",
+  "keywords": [
+    "groundbox",
+    "sandcastle",
+    "sandbox",
+    "agents",
+    "firecracker",
+    "microvm"
+  ],
+  "license": "MIT",
+  "homepage": "https://groundbox.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ground-box/groundbox-integrations.git",
+    "directory": "packages/sandcastle"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@groundbox/sdk": "^0.4.2"
+  },
+  "peerDependencies": {
+    "@ai-hero/sandcastle": ">=0.14.0 <1.0.0"
+  },
+  "devDependencies": {
+    "@ai-hero/sandcastle": "0.14.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
