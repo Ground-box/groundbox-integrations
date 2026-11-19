@@ -1,0 +1,38 @@
+# Publishes each package whose version is not on its registry yet (.github/scripts/publish.sh):
+# npm through trusted publishing (no token), PyPI with the PYPI_TOKEN secret.
+# Runs on every push to main and by hand from the Actions tab. Nothing new is the usual case.
+name: Publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write   # npm trusted publishing and provenance
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # GitHub-hosted on purpose: npm trusted publishing does not accept self-hosted runners.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - name: npm 11.5 or newer (trusted publishing)
+        run: npm install -g npm@latest
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Publish what is new
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: .github/scripts/publish.sh
