@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "smolagents-groundbox"
+version = "0.1.0"
+description = "A Groundbox sandbox executor for smolagents' CodeAgent: run agent code in a Firecracker microVM."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Groundbox", email = "kurtis@groundbox.dev" }]
+keywords = ["smolagents", "groundbox", "sandbox", "code-execution", "agents", "firecracker"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries",
+]
+dependencies = ["smolagents>=1.25.0", "groundbox>=0.4.2"]
+
+[project.optional-dependencies]
+# numpy: smolagents' final_answer tool imports it, and the local stand-in skips pip.
+test = ["pytest>=7", "numpy"]
+
+[project.urls]
+Homepage = "https://groundbox.dev"
+Documentation = "https://groundbox.dev/docs/sandboxes"
+Source = "https://github.com/Ground-box/groundbox-integrations/tree/main/python/smolagents"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/smolagents_groundbox"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
