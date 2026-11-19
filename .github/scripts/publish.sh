@@ -39,7 +39,7 @@ publish_pypi() {
   echo "publishing $name $version to PyPI"
   out="$(mktemp -d)"
   python3 -m build --outdir "$out" "$dir" || { echo "::error::$name: build failed"; return 1; }
-  TWINE_USERNAME=__token__ TWINE_PASSWORD="$PYPI_TOKEN" python3 -m twine upload --non-interactive --disable-progress-bar "$out"/* || { echo "::error::$name: upload failed"; return 1; }
+  TWINE_USERNAME=__token__ TWINE_PASSWORD="$PYPI_TOKEN" python3 -m twine upload --verbose --non-interactive --disable-progress-bar "$out"/* || { echo "::error::$name: upload failed"; return 1; }
 }
 
 shopt -s nullglob
