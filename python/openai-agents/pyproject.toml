@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openai-agents-groundbox"
+version = "0.1.0"
+description = "Groundbox sandboxes for the OpenAI Agents SDK: a SandboxClient for SandboxRunConfig"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Groundbox", email = "contact@groundbox.dev" }]
+keywords = ["openai-agents", "agents", "sandbox", "groundbox", "firecracker"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+dependencies = [
+  # The sandbox interface uses underscored base-class hooks; widen only after testing.
+  "openai-agents>=0.25.0,<0.26.0",
+  "groundbox>=0.4.2",
+  "websockets>=13.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "pytest-asyncio>=0.23"]
+
+[project.urls]
+Homepage = "https://groundbox.dev"
+Documentation = "https://groundbox.dev/docs/sandboxes"
+Source = "https://github.com/Ground-box/groundbox-integrations/tree/main/python/openai-agents"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/openai_agents_groundbox"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "examples", "README.md", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
