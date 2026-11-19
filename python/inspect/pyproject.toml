@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "inspect-groundbox-sandbox"
+version = "0.1.0"
+description = "Groundbox sandboxes for Inspect AI: sandbox=\"groundbox\""
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Groundbox", email = "kurtis@groundbox.dev" }]
+keywords = ["inspect-ai", "sandbox", "groundbox", "evals", "agents", "firecracker"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "groundbox>=0.4.2",
+    "inspect-ai>=0.3.275",
+    "typing_extensions>=4.9",
+]
+
+[project.urls]
+Homepage = "https://groundbox.dev"
+Documentation = "https://groundbox.dev/docs"
+Source = "https://github.com/Ground-box/groundbox-integrations/tree/main/python/inspect"
+
+# Inspect loads this module on start-up, which registers sandbox="groundbox".
+[project.entry-points.inspect_ai]
+inspect_groundbox_sandbox = "inspect_groundbox_sandbox._registry"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/inspect_groundbox_sandbox"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-m 'not live'"
+markers = ["live: runs against the real Groundbox API (needs GROUNDBOX_API_KEY; run with -m live)"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]
