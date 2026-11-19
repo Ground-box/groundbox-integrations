@@ -1,0 +1,71 @@
+{
+  "name": "@groundbox/opencode",
+  "version": "0.1.0",
+  "description": "OpenCode workspace plugin: run OpenCode sessions in Groundbox sandboxes (Firecracker microVMs)",
+  "keywords": [
+    "groundbox",
+    "opencode",
+    "opencode-plugin",
+    "sandbox",
+    "workspace"
+  ],
+  "homepage": "https://github.com/Ground-box/groundbox-integrations/tree/main/packages/opencode#readme",
+  "bugs": {
+    "url": "https://github.com/Ground-box/groundbox-integrations/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ground-box/groundbox-integrations.git",
+    "directory": "packages/opencode"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:live": "vitest run test/live.test.ts",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@groundbox/sdk": "^0.4.2"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.16.0"
+  },
+  "peerDependenciesMeta": {
+    "@opencode-ai/plugin": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "1.19.6",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20",
+    "opencode": ">=1.16.0"
+  }
+}
