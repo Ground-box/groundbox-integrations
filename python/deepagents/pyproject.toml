@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "langchain-groundbox"
+dynamic = ["version"]
+description = "Groundbox sandbox integration for Deep Agents (dcode)"
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+authors = [{ name = "Groundbox", email = "kurtis@groundbox.dev" }]
+keywords = ["deepagents", "dcode", "langchain", "sandbox", "groundbox", "firecracker"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "deepagents>=0.6.0,<0.8.0",
+    "groundbox>=0.4.2,<1.0.0",
+    # Not used here directly. `dcode install <package> --package` resolves with
+    # `--prerelease allow`, which (deepagents-code 0.2.11) pulls httpx 1.0.dev6; that
+    # breaks `import deepagents` (langgraph_sdk needs httpx.HTTPStatusError). Keep 0.x.
+    "httpx>=0.27,<1",
+]
+
+# Deep Agents Code (`dcode`) discovers third-party sandboxes through this group:
+# `dcode --sandbox groundbox`.
+[project.entry-points."deepagents_code.sandbox_providers"]
+groundbox = "langchain_groundbox.provider:GroundboxProvider"
+
+[project.urls]
+Homepage = "https://groundbox.dev"
+Repository = "https://github.com/Ground-box/groundbox-integrations"
+Documentation = "https://github.com/Ground-box/groundbox-integrations/tree/main/python/deepagents#readme"
+Issues = "https://github.com/Ground-box/groundbox-integrations/issues"
+
+[dependency-groups]
+test = [
+    "pytest>=8.0.0,<10.0.0",
+    "pytest-asyncio>=1.0.0",
+    "langchain-tests>=1.1.6",
+    "deepagents-code>=0.2.0; python_version >= '3.14'",
+    "ruff>=0.13.1",
+]
+
+[tool.hatch.version]
+path = "langchain_groundbox/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["langchain_groundbox"]
+
+[tool.hatch.build.targets.sdist]
+include = ["langchain_groundbox", "tests", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "live: runs against the real Groundbox API; needs GROUNDBOX_API_KEY",
+]
