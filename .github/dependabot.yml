@@ -1,0 +1,9 @@
+# Security fixes for npm and pip come from Dependabot security updates (on in repo settings).
+# Routine version bumps are only for the workflow actions: each package's framework range is
+# chosen by hand, after testing against the framework's new release.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
