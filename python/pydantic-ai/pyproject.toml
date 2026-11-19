@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pydantic-ai-groundbox"
+version = "0.1.0"
+description = "Groundbox sandboxes for Pydantic AI agents: a WorkspaceBackend and capability, like the E2B and Daytona ones"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Groundbox", email = "contact@groundbox.dev" }]
+keywords = ["pydantic-ai", "groundbox", "sandbox", "agents", "workspace", "firecracker"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Framework :: Pydantic",
+    "Typing :: Typed",
+]
+dependencies = [
+    # Workspaces arrived in 2.52; 2.68 is the first with the detached-process rule this backend follows.
+    "pydantic-ai-slim>=2.68.0,<3",
+    "groundbox>=0.4.2,<1",
+    "anyio>=4.4",
+]
+
+[project.optional-dependencies]
+# For the examples: Coder, Shell and FileSystem live in pydantic-ai-harness.
+harness = ["pydantic-ai-harness>=0.68.0"]
+
+[project.urls]
+Homepage = "https://groundbox.dev"
+Documentation = "https://groundbox.dev/docs"
+Source = "https://github.com/Ground-box/groundbox-integrations/tree/main/python/pydantic-ai"
+
+[dependency-groups]
+dev = ["pytest>=8.4", "anyio>=4.4", "trio>=0.27", "pydantic-ai-harness>=0.68.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pydantic_ai_groundbox"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "examples", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: runs against the real Groundbox API; needs GROUNDBOX_API_KEY"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pyright]
+include = ["src"]
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
