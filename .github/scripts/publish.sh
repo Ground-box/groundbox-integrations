@@ -31,7 +31,7 @@ publish_npm() {
 publish_pypi() {
   local dir="$1" name version status out
   name="$(python3 -c "import tomllib,sys;print(tomllib.load(open('$dir/pyproject.toml','rb'))['project']['name'])")"
-  version="$(python3 -c "import tomllib,sys;print(tomllib.load(open('$dir/pyproject.toml','rb'))['project']['version'])")"
+  version="$(python3 "$(dirname "${BASH_SOURCE[0]}")/pyversion.py" "$dir")" || { echo "::error::could not read the version of $dir"; return 1; }
   status="$(curl -s -o /dev/null -w '%{http_code}' "https://pypi.org/pypi/$name/$version/json")"
   if [[ "$status" == "200" ]]; then echo "$name $version is already on PyPI"; return 0; fi
   if [[ "$status" != "404" ]]; then echo "::error::PyPI answered $status for $name $version"; return 1; fi
