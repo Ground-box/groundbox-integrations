@@ -1,6 +1,6 @@
 {
   "name": "@groundbox/opencode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OpenCode workspace plugin: run OpenCode sessions in Groundbox sandboxes (Firecracker microVMs)",
   "keywords": [
     "groundbox",
@@ -62,10 +62,15 @@
     "@opencode-ai/plugin": "1.19.6",
     "@types/node": "^22.10.0",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.12"
   },
   "engines": {
     "node": ">=20",
     "opencode": ">=1.16.0"
+  },
+  "overrides": {
+    "toml": "^5.0.1",
+    "effect": "4.0.0-beta.107",
+    "zod": "^4.6.6"
   }
 }
