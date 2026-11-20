@@ -1,6 +1,6 @@
 {
   "name": "@groundbox/opencode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OpenCode workspace plugin: run OpenCode sessions in Groundbox sandboxes (Firecracker microVMs)",
   "keywords": [
     "groundbox",

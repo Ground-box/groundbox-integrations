@@ -1,6 +1,6 @@
 {
   "name": "@groundbox/sandcastle",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Groundbox sandbox provider for Sandcastle: run coding agents in Groundbox Firecracker microVMs.",
   "keywords": [
     "groundbox",
